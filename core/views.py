@@ -20,6 +20,8 @@ class TaskCreate(generics.ListCreateAPIView):
         serializer.save(task_list_id=self.kwargs['list_id'])
 
 class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
     serializer_class = TaskSerializer
     lookup_url_kwarg = 'task_id'
+
+    def get_queryset(self):
+        return Task.objects.filter(task_list_id=self.kwargs['list_id'])
